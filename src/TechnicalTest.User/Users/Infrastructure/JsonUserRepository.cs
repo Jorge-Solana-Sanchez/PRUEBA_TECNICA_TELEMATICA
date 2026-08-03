@@ -33,13 +33,32 @@ public class JsonUserRepository : IUserRepository
         return users.FirstOrDefault(u => u.Id == id);
     }
 
-    public Task AddAsync(UserEntity user)
+    public async Task AddAsync(UserEntity user)
     {
-        throw new NotImplementedException();
+        var users = (await GetAllAsync()).ToList();
+        users.Add(user);
+        
+        var options = new JsonSerializerOptions { WriteIndented = true };
+        var jsonText = JsonSerializer.Serialize(users, options);
+
+        await File.WriteAllTextAsync(_filePath, jsonText);
     }
 
-    public Task UpdateAsync(UserEntity user)
+    public async Task UpdateAsync(UserEntity user)
     {
-        throw new NotImplementedException();
+        var users = (await GetAllAsync()).ToList();
+        
+        var index = users.FindIndex(u => u.Id == user.Id);
+
+        if (index != -1)
+        {
+            users[index] = user;
+            
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            var jsonText = JsonSerializer.Serialize(users, options);
+            
+            await File.WriteAllTextAsync(_filePath, jsonText);
+        }
+            
     }
 }

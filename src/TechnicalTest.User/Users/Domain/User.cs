@@ -26,5 +26,11 @@ public class User
         Email = email;
         Created = created;
     }
+
+    public void UpdateUser(string name, string email)
+    {
+        Name = name;
+        Email = email;
+    }
     
 }

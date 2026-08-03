@@ -1,14 +1,20 @@
-﻿[
+[
   {
     "Id": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
-    "Name": "Carlos Pérez",
+    "Name": "Carlos P\u00E9rez",
     "Email": "carlos.perez@example.com",
     "Created": "2026-08-01T10:00:00Z"
   },
   {
     "Id": "f47ac10b-58cc-4372-a567-0e02b2c3d4e5",
-    "Name": "Laura Gómez",
+    "Name": "Laura G\u00F3mez",
     "Email": "laura.gomez@example.com",
     "Created": "2026-08-02T12:30:00Z"
+  },
+  {
+    "Id": "606e71ec-f22c-4bd6-b1a1-5e2f4586c23b",
+    "Name": "jorge",
+    "Email": "jorge@example.com",
+    "Created": "2026-08-03T10:21:08.8267038Z"
   }
 ]

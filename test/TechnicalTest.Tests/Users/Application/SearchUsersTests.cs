@@ -1,7 +1,6 @@
 ﻿using UserEntity = TechnicalTest.User.Users.Domain.User;
 using FluentAssertions;
 using NSubstitute;
-using NUnit.Framework;
 using TechnicalTest.User.Users.Application.Finder;
 using TechnicalTest.User.Users.Domain;
 

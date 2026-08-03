@@ -1,5 +1,8 @@
 using TechnicalTest.Api.Endpoints.Users;
+using TechnicalTest.User.Users.Application.Creator;
 using TechnicalTest.User.Users.Application.Finder;
+using TechnicalTest.User.Users.Application.Notifier;
+using TechnicalTest.User.Users.Application.Updater;
 using TechnicalTest.User.Users.Domain;
 using TechnicalTest.User.Users.Infrastructure;
 
@@ -18,6 +21,9 @@ builder.Services.AddScoped<IUserRepository>(
     _ => new JsonUserRepository(usersFilePath));
 
 builder.Services.AddScoped<SearchUsers.Handler>();
+builder.Services.AddScoped<IEmailNotifier, LoggingEmailNotifier>();
+builder.Services.AddScoped<CreateUser.Handler>();
+builder.Services.AddScoped<UpdateUser.Handler>();
 
 var app = builder.Build();
 
@@ -32,5 +38,7 @@ app.UseSwaggerUI(c =>
 app.UseHttpsRedirection();
 
 UsersGetEndpoint.MapEndpoint(app);
+app.MapUsersPostEndpoint();
+app.MapUsersPutEndpoint();
 
 app.Run();
