@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace TechnicalTest.User.Users.Domain;
 
@@ -16,8 +17,14 @@ public class User
         Email = email;
         Created = DateTime.UtcNow;
     }
-    
-    
-    
+
+    [JsonConstructor]
+    public User(Guid id, string name, string email, DateTime created)
+    {
+        Id = id;    
+        Name = name;
+        Email = email;
+        Created = created;
+    }
     
 }

@@ -1,41 +1,36 @@
+using TechnicalTest.Api.Endpoints.Users;
+using TechnicalTest.User.Users.Application.Finder;
+using TechnicalTest.User.Users.Domain;
+using TechnicalTest.User.Users.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+// Configurar servicios de OpenAPI y Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+var usersFilePath = Path.Combine(
+    builder.Environment.ContentRootPath,
+    "Data",
+    "users.json");
+
+builder.Services.AddScoped<IUserRepository>(
+    _ => new JsonUserRepository(usersFilePath));
+
+builder.Services.AddScoped<SearchUsers.Handler>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// Habilitar Swagger UI siempre para probar fácilmente
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.MapOpenApi();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Technical Test API v1");
+    c.RoutePrefix = "swagger"; // La interfaz estará en /swagger
+});
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-    {
-        var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-            .ToArray();
-        return forecast;
-    })
-    .WithName("GetWeatherForecast");
+UsersGetEndpoint.MapEndpoint(app);
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
