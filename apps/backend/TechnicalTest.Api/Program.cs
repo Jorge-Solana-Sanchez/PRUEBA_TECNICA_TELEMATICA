@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using TechnicalTest.Api.Endpoints.Users;
 using TechnicalTest.User.Users.Application.Creator;
 using TechnicalTest.User.Users.Application.Finder;
@@ -12,13 +13,24 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var usersFilePath = Path.Combine(
-    builder.Environment.ContentRootPath,
-    "Data",
-    "users.json");
+// CONFIGURACIÓN DE MYSQL CON ENTITY FRAMEWORK CORE
 
-builder.Services.AddScoped<IUserRepository>(
-    _ => new JsonUserRepository(usersFilePath));
+// Leemos la cadena de conexión desde appsettings.json
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+// Registramos el DbContext con el proveedor
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseMySql(
+        connectionString, 
+        ServerVersion.AutoDetect(connectionString)
+    )
+);
+
+// Reemplazamos JsonUserRepository por MySqlUserRepository
+builder.Services.AddScoped<IUserRepository, MySqlUserRepository>();
+
+// ==============================================================================
 
 builder.Services.AddScoped<SearchUsers.Handler>();
 builder.Services.AddScoped<IEmailNotifier, LoggingEmailNotifier>();
@@ -27,12 +39,21 @@ builder.Services.AddScoped<UpdateUser.Handler>();
 
 var app = builder.Build();
 
-// Habilitar Swagger UI siempre para probar fácilmente
+// CREACIÓN AUTOMÁTICA DE TABLAS EN LA BASE DE DATOS
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    context.Database.EnsureCreated(); 
+}
+// ==============================================================================
+
+// Habilitar Swagger UI  
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Technical Test API v1");
-    c.RoutePrefix = "swagger"; // La interfaz estará en /swagger
+    c.RoutePrefix = "swagger";
 });
 
 app.UseHttpsRedirection();

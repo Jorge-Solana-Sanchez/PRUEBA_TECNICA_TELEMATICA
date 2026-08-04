@@ -33,7 +33,7 @@ public class JsonUserRepository : IUserRepository
         return users.FirstOrDefault(u => u.Id == id);
     }
 
-    public async Task AddAsync(UserEntity user)
+    public async Task AddAsync(UserEntity user, CancellationToken cancellationToken = default)
     {
         var users = (await GetAllAsync()).ToList();
         users.Add(user);
@@ -44,7 +44,7 @@ public class JsonUserRepository : IUserRepository
         await File.WriteAllTextAsync(_filePath, jsonText);
     }
 
-    public async Task UpdateAsync(UserEntity user)
+    public async Task UpdateAsync(UserEntity user, CancellationToken cancellationToken = default)
     {
         var users = (await GetAllAsync()).ToList();
         
