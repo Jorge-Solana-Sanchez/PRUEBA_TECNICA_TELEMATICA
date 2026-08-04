@@ -1,4 +1,4 @@
-# Ejercicio 2 (Persistencia MySQL)
+# Backend - Ejercicio 2 (Persistencia MySQL)
 
 Este proyecto implementa la API de usuarios en **.NET 9**. Se ha sustituido el almacenamiento original basado en archivos JSON por una base de datos relacional **MySQL** desplegada mediante **Docker**.
 
