@@ -9,17 +9,12 @@ using TechnicalTest.User.Users.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configurar servicios de OpenAPI y Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// CONFIGURACIÓN DE MYSQL CON ENTITY FRAMEWORK CORE
-
-// Leemos la cadena de conexión desde appsettings.json
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
-    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+                       ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-// Registramos el DbContext con el proveedor
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(
         connectionString, 
@@ -27,28 +22,22 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     )
 );
 
-// Reemplazamos JsonUserRepository por MySqlUserRepository
 builder.Services.AddScoped<IUserRepository, MySqlUserRepository>();
-
-// ==============================================================================
+builder.Services.AddScoped<IEmailNotifier, LoggingEmailNotifier>();
 
 builder.Services.AddScoped<SearchUsers.Handler>();
-builder.Services.AddScoped<IEmailNotifier, LoggingEmailNotifier>();
 builder.Services.AddScoped<CreateUser.Handler>();
 builder.Services.AddScoped<UpdateUser.Handler>();
 
 var app = builder.Build();
 
-// CREACIÓN AUTOMÁTICA DE TABLAS EN LA BASE DE DATOS
-
+// Ensure DB schema is created on startup
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     context.Database.EnsureCreated(); 
 }
-// ==============================================================================
 
-// Habilitar Swagger UI  
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {

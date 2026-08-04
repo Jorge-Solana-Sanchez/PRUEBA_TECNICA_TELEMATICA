@@ -1,28 +1,43 @@
-# Ejercicio 1 - API REST de Gestión de Usuarios
+# Ejercicio 2 (Persistencia MySQL)
 
-API REST en .NET 9 / C# para el obtención, creación y actualización de usuarios.
+Este proyecto implementa la API de usuarios en **.NET 9**. Se ha sustituido el almacenamiento original basado en archivos JSON por una base de datos relacional **MySQL** desplegada mediante **Docker**.
 
-## Instrucciones de Ejecución
+---
 
-### 1. Requisitos previos
-* .NET 9 SDK (o superior)
+## Requisitos Previos
 
-### 2. Levantar la aplicación
-Abre una terminal en la raíz del proyecto y ejecuta:
+Asegúrate de tener instalados los siguientes componentes:
 
+* .NET 9.0 SDK
+* Docker Desktop (debe estar en ejecución)
+
+---
+
+## Pasos para Ejecutar la Aplicación
+
+### 1. Iniciar la Base de Datos MySQL (Docker)
+
+Abre una terminal en la raíz del proyecto (donde se encuentra el archivo `docker-compose.yml`) y ejecuta:
+
+```bash
+docker compose up -d
+```
+### 2. Iniciar la API
+Ejecuta la API desde la terminal con el siguiente comando:
 ```bash
 dotnet run --project apps/backend/TechnicalTest.Api
 ```
-(También puedes ejecutar la aplicación directamente seleccionando el proyecto TechnicalTest.Api desde tu IDE).
 
-### 3. Probar la API (Swagger)
-Una vez iniciada la aplicación, abre el navegador e introduce la siguiente URL para interactuar con los endpoints:
+Creación de tablas: La aplicación está configurada para que, en el primer arranque, cree automáticamente la base de datos technical_test_db y la tabla Users en el contenedor MySQL si aún no existen.
 
-[http://localhost:5000/swagger](http://localhost:5000/swagger)
+### 3. Probar la Aplicación en Swagger
 
+Una vez iniciada la API, accede a la url:
 
-## Test unitarios
-Para ejecutar las pruebas unitarias:
-```bash
-dotnet test
-```
+**http://localhost:5000/swagger**
+
+Desde la interfaz gráfica de **Swagger** podrás probar los endpoints de usuarios:
+
+* `GET /api/users` — Consulta la lista de usuarios persistidos en la base de datos MySQL.
+* `POST /api/users` — Registra un nuevo usuario en la base de datos.
+* `PUT /api/users/{id}` — Actualiza los datos de un usuario existente.
