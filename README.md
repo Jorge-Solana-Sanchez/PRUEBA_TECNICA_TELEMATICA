@@ -1,4 +1,4 @@
-# Bakend - Ejercicio 1: API REST de Gestión de Usuarios
+# Backend - Ejercicio 1: API REST de Gestión de Usuarios
 
 API REST en .NET 9 / C# para el obtención, creación y actualización de usuarios.
 
