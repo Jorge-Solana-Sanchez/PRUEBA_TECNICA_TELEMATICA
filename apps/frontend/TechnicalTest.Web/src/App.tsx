@@ -5,7 +5,7 @@ import { UserTable } from './components/UserTable';
 import './App.css';
 
 export function App() {
-  const [users, setUsers] = useState<UserUI>([]);
+  const [users, setUsers] = useState<UserUI[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   
@@ -38,5 +38,5 @@ export function App() {
         )}
       </div>
   );
-};
+}
 
