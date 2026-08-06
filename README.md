@@ -1,6 +1,12 @@
-# Frontend - Ejercicio 1
+# Frontend - Ejercicio 2
+En este ejercicio se ha ampliado el listado de usuarios para añadir funcionalidad de edición y creación mediante un modal, conectándolo con la API desarrollada en los ejercicios de backend.
 
----
+
+## Cambios realizados
+* Acción de editar: botón "Editar" en cada fila para modificar los datos de un usuario desde un modal.
+* Acción de añadir: botón "Añadir Usuario" para registrar un nuevo usuario a través del mismo modal.
+* Restaurar datos: botón "Restaurar para volver a cargar la lista original de usuarios.
+* Integración API: añadidas peticiones HTTP (POST, PUT) contra el backend.
 
 ## Requisitos Previos
 
@@ -61,5 +67,5 @@ npm run dev
 ```
 
 #### 4. Probar en la web
-Abre tu navegador en la URL indicada en la consola: 
-http://localhost:5173
+Abre tu navegador en la URL indicada en la consola:
+http://localhost:5173   
