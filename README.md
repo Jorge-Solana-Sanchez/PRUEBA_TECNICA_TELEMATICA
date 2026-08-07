@@ -1,71 +1,70 @@
-# Frontend - Ejercicio 2
-En este ejercicio se ha ampliado el listado de usuarios para añadir funcionalidad de edición y creación mediante un modal, conectándolo con la API desarrollada en los ejercicios de backend.
+# Ejercicio 3 - Frontend
 
+---
+Suite de tests para la aplicación de gestión de usuarios. Se han implementado tanto pruebas de componentes con Jest como pruebas de integración E2E con Playwright.
 
-## Cambios realizados
-* Acción de editar: botón "Editar" en cada fila para modificar los datos de un usuario desde un modal.
-* Acción de añadir: botón "Añadir Usuario" para registrar un nuevo usuario a través del mismo modal.
-* Restaurar datos: botón "Restaurar para volver a cargar la lista original de usuarios.
-* Integración API: añadidas peticiones HTTP (POST, PUT) contra el backend.
+##      Tecnologías Utilizadas
 
-## Requisitos Previos
-
-Asegúrate de tener instalados los siguientes componentes:
-
-* .NET 9.0 SDK
-* Docker Desktop (debe estar en ejecución)
-* Node.js (v18 o superior)
+- **Frontend:** React, TypeScript, Vite.
+- **Testing Unitario y de Componentes:** Jest, React Testing Library.
+- **Testing E2E (End-to-End):** Playwright.
 
 ---
 
-## Pasos para Ejecutar la Aplicación
+## Pruebas Implementadas
 
-### Backend
+Se han cubierto los tests propuestos en el enunciado mediante dos enfoques complementarios:
 
-#### 1. Iniciar la Base de Datos MySQL (Docker)
+1. **Comprobar que en cada fila de la tabla existe un botón de editar.**
+2. **Comprobar que al pulsar el botón de editar se renderiza el panel modal con la información del usuario.**
 
-Abre una terminal en la raíz del proyecto (donde se encuentra el archivo `docker-compose.yml`) y ejecuta:
+- **Con Jest:** Se verifica la lógica de renderizado de los componentes (`UserTable` y `UserModal`) de forma aislada e instantánea en memoria.
+- **Con Playwright:** Se simula la interacción real de un usuario en un navegador, interceptando la API para garantizar pruebas E2E deterministas e independientes de la base de datos.
 
-```bash
-docker compose up -d
-```
-#### 2. Iniciar la API
-Ejecuta la API desde la terminal con el siguiente comando:
-```bash
-dotnet run --project apps/backend/TechnicalTest.Api
-```
+---
 
-Creación de tablas: La aplicación está configurada para que, en el primer arranque, cree automáticamente la base de datos technical_test_db y la tabla Users en el contenedor MySQL si aún no existen.
+##  Instrucciones de Ejecución
 
-#### 3. Verificar en Swagger
+### 1. Requisitos Previos
+Asegúrate de tener instalado:
+- **Node.js** (v18 o superior)
 
-Una vez iniciada la API, accede a la url:
+### 2. Instalación
+Accede a la carpeta del proyecto frontend e instala las dependencias:
 
-**http://localhost:5000/swagger**
-
-Desde la interfaz gráfica de **Swagger** podrás probar los endpoints de usuarios:
-
-* `GET /api/users` — Consulta la lista de usuarios persistidos en la base de datos MySQL.
-* `POST /api/users` — Registra un nuevo usuario en la base de datos.
-* `PUT /api/users/{id}` — Actualiza los datos de un usuario existente.
-
-### Frontend
-
-#### 1. Navegar a la carpeta del cliente:
 ```bash
 cd apps/frontend/TechnicalTest.Web
-```
-
-#### 2. Instalar dependencias:
-```bash
 npm install
 ```
 
-#### 3. Iniciar el servidor de desarrollo:
+## Comandos de Pruebas
+Desde la carpeta apps/frontend/TechnicalTest.Web puedes ejecutar los siguientes comandos:
+
+### Ejecutar Pruebas Unitarias y de Componentes (Jest)
+Lanza la suite de pruebas rápidas con Jest:
+
+```bash
+npm run test:jest
+```
+
+### Ejecutar Pruebas E2E (Playwright)
+Lanza la suite de pruebas de navegador en modo consola:
+
+```bash
+npm run test:e2e
+```
+
+Si deseas ver la ejecución de Playwright en modo interactivo mediante interfaz gráfica:
+
+```bash
+npm run test:e2e:ui
+```
+
+## Ejecución de la Aplicación en Desarrollo
+Para levantar el cliente web en modo desarrollo:
+
 ```bash
 npm run dev
 ```
 
-#### 4. Probar en la web
-Abre tu navegador en la URL indicada en la consola:
-http://localhost:5173   
+La aplicación estará disponible en http://localhost:5173.
