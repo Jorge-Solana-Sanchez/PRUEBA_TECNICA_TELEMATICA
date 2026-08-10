@@ -31,8 +31,8 @@ public class CreateUserTests
         var result = await _handler.Handle(command);
 
         result.Should().NotBeNull();
-        result.Name.Should().Be(command.name);   
-        result.Email.Should().Be(command.email); 
+        result.Name.Should().Be(command.Name);   
+        result.Email.Should().Be(command.Email); 
         result.Id.Should().NotBeEmpty();
 
         await _repositoryMock.Received(1).AddAsync(Arg.Any<UserEntity>());
