@@ -6,7 +6,7 @@ namespace TechnicalTest.User.Users.Application.Creator;
 
 public static class CreateUser
 {
-    public sealed record Command(string name, string email);
+    public sealed record Command(string Name, string Email);
 
     public sealed class Handler
     {
@@ -21,9 +21,9 @@ public static class CreateUser
 
         public async Task<UserEntity> Handle(Command command, CancellationToken ct = default)
         {
-            var user = new UserEntity(command.name, command.email);
+            var user = new UserEntity(command.Name, command.Email);
             
-            await _repository.AddAsync(user);
+            await _repository.AddAsync(user, ct);
             await _emailNotifier.SendEmailAsync(user.Email, user.Name, ct);
 
             return user;
