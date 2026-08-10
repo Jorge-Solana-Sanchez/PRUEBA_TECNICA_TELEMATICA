@@ -22,7 +22,6 @@ public class SearchUsersTests
     [Test]
     public async Task Handle_ShouldReturnAllUsersFromRepository()
     {
-        // Arrange
         var expectedUsers = new List<UserEntity>
         {
             new UserEntity(Guid.NewGuid(), "Carlos Pérez", "carlos@example.com", DateTime.UtcNow),
@@ -35,10 +34,8 @@ public class SearchUsersTests
 
         var query = new SearchUsers.Query();
 
-        // Act
         var result = await _handler.Handle(query, CancellationToken.None);
 
-        // Assert
         result.Should().NotBeNull();
         result.Should().HaveCount(2);
         result.Should().BeEquivalentTo(expectedUsers);
@@ -49,17 +46,14 @@ public class SearchUsersTests
     [Test]
     public async Task Handle_WhenNoUsersExist_ShouldReturnEmptyList()
     {
-        // Arrange
         _repositoryMock
             .GetAllAsync(Arg.Any<CancellationToken>())
             .Returns(Task.FromResult<IEnumerable<UserEntity>>([]));
 
         var query = new SearchUsers.Query();
 
-        // Act
         var result = await _handler.Handle(query, CancellationToken.None);
 
-        // Assert
         result.Should().BeEmpty();
     }
 }
