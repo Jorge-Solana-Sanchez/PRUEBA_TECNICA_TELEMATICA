@@ -27,7 +27,7 @@ public static class UpdateUser
             
             user.UpdateUser(command.Name, command.Email);
 
-            await _repository.UpdateAsync(user);
+            await _repository.UpdateAsync(user, ct);
             
             return user;
         }
