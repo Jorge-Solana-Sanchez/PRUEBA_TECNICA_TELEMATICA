@@ -1,36 +1,32 @@
-# Ejercicio 3 - Frontend
+# Ejercicio 3 - Pruebas del Frontend
 
----
-Suite de tests para la aplicación de gestión de usuarios. Se han implementado tanto pruebas de componentes con Jest como pruebas de integración E2E con Playwright.
-
-##      Tecnologías Utilizadas
-
-- **Frontend:** React, TypeScript, Vite.
-- **Testing Unitario y de Componentes:** Jest, React Testing Library.
-- **Testing E2E (End-to-End):** Playwright.
+Pruebas para la aplicación de gestión de usuarios (React + TypeScript). Incluye tests de componentes con Jest y tests E2E con Playwright.
 
 ---
 
-## Pruebas Implementadas
+## Tecnologías
 
-Se han cubierto los tests propuestos en el enunciado mediante dos enfoques complementarios:
-
-1. **Comprobar que en cada fila de la tabla existe un botón de editar.**
-2. **Comprobar que al pulsar el botón de editar se renderiza el panel modal con la información del usuario.**
-
-- **Con Jest:** Se verifica la lógica de renderizado de los componentes (`UserTable` y `UserModal`) de forma aislada e instantánea en memoria.
-- **Con Playwright:** Se simula la interacción real de un usuario en un navegador, interceptando la API para garantizar pruebas E2E deterministas e independientes de la base de datos.
+- **React / TypeScript / Vite**
+- **Jest + React Testing Library**
+- **Playwright**
 
 ---
 
-##  Instrucciones de Ejecución
+## Pruebas realizadas
 
-### 1. Requisitos Previos
-Asegúrate de tener instalado:
-- **Node.js** (v18 o superior)
+Se han cubierto los puntos solicitados en el ejercicio:
 
-### 2. Instalación
-Accede a la carpeta del proyecto frontend e instala las dependencias:
+1. **Botón de editar por fila:** Comprueba que cada fila de la tabla muestra su correspondiente botón de edición.
+2. **Modal de edición:** Verifica que al hacer clic en "Editar" se abre el modal cargando los datos del usuario.
+
+- **Jest:** Prueba el renderizado de los componentes (`UserTable` y `UserModal`).
+- **Playwright:** Prueba el flujo en el navegador interceptando la API.
+
+---
+
+## Ejecución de pruebas
+
+Entra en la carpeta del frontend e instala las dependencias si no lo has hecho antes:
 
 ```bash
 cd apps/frontend/TechnicalTest.Web
@@ -41,27 +37,26 @@ npm install
 Desde la carpeta apps/frontend/TechnicalTest.Web puedes ejecutar los siguientes comandos:
 
 ### Ejecutar Pruebas Unitarias y de Componentes (Jest)
-Lanza la suite de pruebas rápidas con Jest:
 
 ```bash
 npm run test:jest
 ```
 
 ### Ejecutar Pruebas E2E (Playwright)
-Lanza la suite de pruebas de navegador en modo consola:
+Para ejecutar las pruebas en la consola:
 
 ```bash
 npm run test:e2e
 ```
 
-Si deseas ver la ejecución de Playwright en modo interactivo mediante interfaz gráfica:
+Para abrirlas en la interfaz de Playwright:
 
 ```bash
 npm run test:e2e:ui
 ```
 
 ## Ejecución de la Aplicación en Desarrollo
-Para levantar el cliente web en modo desarrollo:
+Para levantar la web en local:
 
 ```bash
 npm run dev
