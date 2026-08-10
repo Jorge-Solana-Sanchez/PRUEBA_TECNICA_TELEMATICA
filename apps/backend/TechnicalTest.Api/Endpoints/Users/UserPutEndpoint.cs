@@ -21,7 +21,7 @@ public static class UsersPutEndpoint
 
                 if (updatedUser is null)
                 {
-                    return Results.NotFound(new { Message = $"User with ID '{id}' was not found." });
+                    return Results.NotFound(new { Message = $"\"No se encontró el usuario con ID '{id}'" });
                 }
 
                 return Results.Ok(updatedUser);
