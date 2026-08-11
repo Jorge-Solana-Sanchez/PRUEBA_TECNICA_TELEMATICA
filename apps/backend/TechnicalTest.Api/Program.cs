@@ -22,14 +22,14 @@ builder.Services.AddCors(options =>
     });
 });
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
-                       ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+                       ?? throw new InvalidOperationException(
+                           "Connection string 'DefaultConnection' not found.");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(
-        connectionString, 
-        ServerVersion.AutoDetect(connectionString)
-    )
+        connectionString,
+        ServerVersion.AutoDetect(connectionString))
 );
 
 builder.Services.AddScoped<IUserRepository, MySqlUserRepository>();
@@ -41,17 +41,40 @@ builder.Services.AddScoped<UpdateUser.Handler>();
 
 var app = builder.Build();
 
-// Ensure DB schema is created on startup
+app.Use(async (context, next) =>
+{
+    try
+    {
+        await next();
+    }
+    catch (ArgumentException exception)
+    {
+        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+        context.Response.ContentType = "application/json";
+
+        await context.Response.WriteAsJsonAsync(new
+        {
+            error = exception.Message
+        });
+    }
+});
+
 using (var scope = app.Services.CreateScope())
 {
-    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    context.Database.EnsureCreated(); 
+    var context = scope.ServiceProvider
+        .GetRequiredService<ApplicationDbContext>();
+
+    context.Database.EnsureCreated();
 }
 
 app.UseSwagger();
+
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Technical Test API v1");
+    c.SwaggerEndpoint(
+        "/swagger/v1/swagger.json",
+        "Technical Test API v1");
+
     c.RoutePrefix = "swagger";
 });
 

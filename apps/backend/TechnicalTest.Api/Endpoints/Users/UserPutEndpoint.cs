@@ -21,7 +21,7 @@ public static class UsersPutEndpoint
 
                 if (updatedUser is null)
                 {
-                    return Results.NotFound(new { Message = $"\"No se encontró el usuario con ID '{id}'" });
+                    return Results.NotFound(new {  message = $"No se encontró el usuario con ID '{id}'" });
                 }
 
                 return Results.Ok(updatedUser);
@@ -29,6 +29,7 @@ public static class UsersPutEndpoint
             .WithTags("Users")
             .WithName("UpdateUser")
             .Produces<UserEntity>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound);
     }
 }
