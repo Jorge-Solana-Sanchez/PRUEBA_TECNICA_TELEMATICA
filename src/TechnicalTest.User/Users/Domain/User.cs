@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net.Mail;
+﻿using System.Net.Mail;
 using System.Text.Json.Serialization;
 
 namespace TechnicalTest.User.Users.Domain;
@@ -46,8 +45,7 @@ public class User
         if (string.IsNullOrWhiteSpace(name))
         {
             throw new ArgumentException(
-                "El nombre del usuario es obligatorio.",
-                nameof(name));
+                "El nombre del usuario es obligatorio.");
         }
 
         return name.Trim();
@@ -58,8 +56,7 @@ public class User
         if (string.IsNullOrWhiteSpace(email))
         {
             throw new ArgumentException(
-                "El email del usuario es obligatorio.",
-                nameof(email));
+                "El email del usuario es obligatorio.");
         }
 
         email = email.Trim();
@@ -79,8 +76,7 @@ public class User
         catch (FormatException)
         {
             throw new ArgumentException(
-                "El email del usuario no es válido.",
-                nameof(email));
+                "El email del usuario no es válido.");
         }
 
         return email;
